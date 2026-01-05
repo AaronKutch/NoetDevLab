@@ -9,7 +9,7 @@ Then for Github, you go to your profile icon > Settings > SSH and GPG keys, then
 Use determinant systems installer to install nix:
 `curl -fsSL https://install.determinate.systems/nix | sh -s -- install`
 
-May need to add `PATH="$PATH:~/.nix-profile/bin:/nix/var/nix/profiles/default/bin"` to `~/.bashrc` and `~/.bash_profile`. Note that these files are overwritten by following steps, and you may need something like `sudo nano ~/.bashrc`. Things like searching commands throuh `atuin` and some other things like `nix` itself may be broken until you do this manually.
+In some cases you may need to run `PATH="$PATH:~/.nix-profile/bin:/nix/var/nix/profiles/default/bin"`, but after full setup `nix` and all the binaries like `atuin` should be working automatically.
 
 Relogin
 
