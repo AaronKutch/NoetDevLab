@@ -1,13 +1,25 @@
 How to setup a whole development system from scratch in the minimum time:
 
-use the boilerplate script to setup SSH key,
+Use VSCode (may want insiders as it has the command "Terminal: Move Terminal into New Window") with "Remote - SSH" extension. Use "Remote-SSH: Open SSH Configuration File..." to add the server and connect to it. Use `passwd` to update the password.
+
+Use the boilerplate script to setup just the SSH key, and you may want to edit the email of the ` ~/.ssh/*.pub` file.
+
+Then for Github, you go to your profile icon > Settings > SSH and GPG keys, then add the SSH key.
 
 Use determinant systems installer to install nix:
 `curl -fsSL https://install.determinate.systems/nix | sh -s -- install`
 
-Run the boilerplate script again, may have to re login.
+May need to add `PATH="$PATH:~/.nix-profile/bin:/nix/var/nix/profiles/default/bin"` to `~/.bashrc` and `~/.bash_profile`. Note that these files are overwritten by following steps, and you may need something like `sudo nano ~/.bashrc`. Things like searching commands throuh `atuin` and some other things like `nix` itself may be broken until you do this manually.
 
-May need to add `PATH="$PATH:~/.nix-profile/bin:/nix/var/nix/profiles/default/bin"` to .bashrc and run `source .bashrc`
+Relogin
+
+Run the boilerplate script again
+
+Relogin
+
+In order to edit things after this, edit this repo so that it is version controlled, and rerun the script, or you can edit `~/.config/home-manager/home.nix` and run the special `rrhm` command
+
+
 
 boilerplate home-manager setup script:
 
@@ -24,48 +36,6 @@ CONFIG_DIR="$HOME/.config/home-manager"
 NIX_HOME="$HOME/.config/home-manager"
 NIX_STATE="$HOME/.local/state/nix"
 HM_BACKUP_DIR="$HOME/.config/home-manager_backup_$(date +%Y%m%d_%H%M%S)"
-
-################################################### --- GitHub Repo Setup --- ###########################
-#########################################################################################################
-
-# check if gh cli is installed and logged in
-if command -v gh &> /dev/null
-then
-    if gh auth status &> /dev/null
-    then
-        GITHUB_CLI="true"
-    fi
-fi
-
-if [ "$GITHUB_CLI" = "true" ]
-then
-    echo "GitHub CLI detected and authenticated."
-    TEMPLATE_REPO="NoeticNet/NoetDevLab"
-
-    # prompt user for repo name (default to template name)
-    read -p "Enter a name for your new repository [default: NoetDevLab]: " REPO_NAME < /dev/tty
-    REPO_NAME=${REPO_NAME:-NoetDevLab}
-
-    # check if repo already exists under the authenticated user/org
-    if gh repo view "$REPO_NAME" &> /dev/null
-    then
-        echo "Repository '$REPO_NAME' already exists."
-    else
-        echo "Creating repository '$REPO_NAME' from template '$TEMPLATE_REPO'..."
-        gh repo create "$REPO_NAME" --template "$TEMPLATE_REPO" --public
-    fi
-
-    # get repo URL (works for both user/org)
-    CONFIG_URL=$(gh repo view "$REPO_NAME" --json url -q .url)
-    echo "Repository URL: $CONFIG_URL"
-
-else
-    echo "GitHub CLI is not installed or not logged in."
-    echo "Please create a repo from template located at https://github.com/NoeticNet/NoetDevLab manually."
-    read -p "After creating the repo, please enter the repository URL: " CONFIG_URL < /dev/tty
-fi
-
-echo "CONFIG_URL set to: $CONFIG_URL"
 
 ################################################### --- SSH Setup --- ###########################
 #################################################################################################
@@ -131,6 +101,48 @@ if [ -f "${SSH_KEY}.pub" ]; then
 else
     echo "No public key found."
 fi
+
+################################################### --- GitHub Repo Setup --- ###########################
+#########################################################################################################
+
+# check if gh cli is installed and logged in
+if command -v gh &> /dev/null
+then
+    if gh auth status &> /dev/null
+    then
+        GITHUB_CLI="true"
+    fi
+fi
+
+if [ "$GITHUB_CLI" = "true" ]
+then
+    echo "GitHub CLI detected and authenticated."
+    TEMPLATE_REPO="NoeticNet/NoetDevLab"
+
+    # prompt user for repo name (default to template name)
+    read -p "Enter a name for your new repository [default: NoetDevLab]: " REPO_NAME < /dev/tty
+    REPO_NAME=${REPO_NAME:-NoetDevLab}
+
+    # check if repo already exists under the authenticated user/org
+    if gh repo view "$REPO_NAME" &> /dev/null
+    then
+        echo "Repository '$REPO_NAME' already exists."
+    else
+        echo "Creating repository '$REPO_NAME' from template '$TEMPLATE_REPO'..."
+        gh repo create "$REPO_NAME" --template "$TEMPLATE_REPO" --public
+    fi
+
+    # get repo URL (works for both user/org)
+    CONFIG_URL=$(gh repo view "$REPO_NAME" --json url -q .url)
+    echo "Repository URL: $CONFIG_URL"
+
+else
+    echo "GitHub CLI is not installed or not logged in."
+    echo "Please create a repo from template located at https://github.com/NoeticNet/NoetDevLab manually."
+    read -p "After creating the repo, please enter the repository URL (use git@github.com SSH link): " CONFIG_URL < /dev/tty
+fi
+
+echo "CONFIG_URL set to: $CONFIG_URL"
 
 ################################################### clone home-manager config #############################
 ###########################################################################################################
