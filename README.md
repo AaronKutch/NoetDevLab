@@ -19,7 +19,7 @@ Relogin
 
 In order to edit things after this, edit this repo so that it is version controlled, and rerun the script, or you can edit `~/.config/home-manager/home.nix` and run the special `rrhm` command
 
-
+Now `nix develop` in special repos should work.
 
 boilerplate home-manager setup script:
 
