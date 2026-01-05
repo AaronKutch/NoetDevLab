@@ -108,9 +108,9 @@ in
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
+  #home.sessionPath = [
+  #  "$HOME/.local/bin"
+  #];
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
