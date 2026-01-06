@@ -19,7 +19,14 @@ Relogin
 
 In order to edit things after this, edit this repo so that it is version controlled, and rerun the script, or you can edit `~/.config/home-manager/home.nix` and run the special `rrhm` command
 
-Now `nix develop` in special repos should work.
+Now `nix develop` in special repos should work. You will probably need
+```
+    "rust-analyzer.cargo.extraEnv": {
+        "NIX_PROFILES": "/nix/var/nix/profiles/default ${userHome}/.nix-profile",
+        "PATH": "${userHome}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${env:PATH}"
+    }
+```
+to get rust-analyzer to work. (find VSCode Settings and click the small "Open Settings (JSON)" icon in the top right).
 
 boilerplate home-manager setup script:
 
