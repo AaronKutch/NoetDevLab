@@ -28,6 +28,14 @@ Now `nix develop` in special repos should work. You will probably need
 ```
 to get rust-analyzer to work. (find VSCode Settings and click the small "Open Settings (JSON)" icon in the top right).
 
+To install docker on CentOS like systems,
+`sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
+`sudo systemctl enable --now docker`
+`sudo usermod -aG docker $USER` To enable usage without sudo
+and relogin.
+
+One time, I saw a very hard to debug issue where I needed to hard relogin with `sudo loginctl terminate-user $USER` for some reason, and there was a mismatch in the docker GIDs that had to be fixed with `sudo groupmod -g {correct GID} docker`.
+
 boilerplate home-manager setup script:
 
 ```
