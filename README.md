@@ -36,6 +36,12 @@ and relogin.
 
 One time, I saw a very hard to debug issue where I needed to hard relogin with `sudo loginctl terminate-user $USER` for some reason, and there was a mismatch in the docker GIDs that had to be fixed with `sudo groupmod -g {correct GID} docker`.
 
+To configure git, fill in the quotes
+```
+git config --global user.name ""
+bash-5.2$ git config --global user.email ""
+```
+
 boilerplate home-manager setup script:
 
 ```
