@@ -26,7 +26,7 @@ Now `nix develop` in special repos should work. You will probably need
         "PATH": "${userHome}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${env:PATH}"
     }
 ```
-to get rust-analyzer to work. (find VSCode Settings and click the small "Open Settings (JSON)" icon in the top right).
+to get rust-analyzer to work. (find VSCode Settings and click the small "Open Settings (JSON)" icon in the top right). If this is not working, you can use the `nix_env.sh` script and extract just the `PATH` part and put that as the string following `"PATH":`.
 
 To install docker on CentOS like systems,
 `sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
